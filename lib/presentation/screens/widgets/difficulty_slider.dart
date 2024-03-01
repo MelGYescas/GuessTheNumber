@@ -29,16 +29,17 @@ class _DifficultySliderState extends State<DifficultySlider> {
     }
   }
 
+  final difficultyLevels = [
+    DifficultyLevel.easy,
+    DifficultyLevel.medium,
+    DifficultyLevel.advanced,
+    DifficultyLevel.extreme,
+  ];
   @override
   Widget build(BuildContext context) {
+    final gameProvider = Provider.of<GameProvider>(context);
+    final maxNumber = gameProvider.currentDifficulty.maxNumber;
     final colorScheme = Theme.of(context).colorScheme;
-    final difficultyLevels = [
-      DifficultyLevel.easy,
-      DifficultyLevel.medium,
-      DifficultyLevel.advanced,
-      DifficultyLevel.extreme,
-    ];
-
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -67,6 +68,8 @@ class _DifficultySliderState extends State<DifficultySlider> {
             },
           ),
         ),
+        Text(
+            'En nivel ${_getDifficultyText(_currentSliderValue)} se permiten entradas de números del 1 al $maxNumber'),
       ],
     );
   }

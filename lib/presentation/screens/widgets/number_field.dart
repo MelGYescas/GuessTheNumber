@@ -23,18 +23,26 @@ class _NumberFieldState extends State<NumberField> {
 
   void _submitValue(String value) {
     final number = int.tryParse(value);
-    if (number != null && number >= 0) {
-      Provider.of<GameProvider>(context, listen: false).makeGuess(number);
-      _controller.clear();
+    final maxNumber = Provider.of<GameProvider>(context, listen: false)
+        .currentDifficulty
+        .maxNumber;
 
-      FocusScope.of(context).requestFocus(_focusNode);
-
-      setState(() {
-        _errorMessage = null;
-      });
+    _controller.clear();
+    FocusScope.of(context).requestFocus(_focusNode);
+    if (number != null) {
+      if (number >= 1 && number <= maxNumber) {
+        Provider.of<GameProvider>(context, listen: false).makeGuess(number);
+        setState(() {
+          _errorMessage = null;
+        });
+      } else {
+        setState(() {
+          _errorMessage = 'Número fuera de rango (1-$maxNumber)';
+        });
+      }
     } else {
       setState(() {
-        _errorMessage = 'Solo numeros positivos';
+        _errorMessage = 'Solo números positivos';
       });
     }
   }
@@ -49,7 +57,7 @@ class _NumberFieldState extends State<NumberField> {
       controller: _controller,
       focusNode: _focusNode,
       decoration: InputDecoration(
-          labelText: 'Numbers',
+          labelText: 'Numbers ',
           errorText: _errorMessage,
           border: outlineInputBorder,
           enabledBorder: outlineInputBorder,

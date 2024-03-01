@@ -30,9 +30,6 @@ class GuessTheNumberScreen extends StatelessWidget {
             padding: const EdgeInsets.all(20.0),
             child: Column(
               children: [
-                Row(
-                  children: [Text('${gameProvider.secretNumber}')],
-                ),
                 const Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [

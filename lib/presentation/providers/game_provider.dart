@@ -75,5 +75,5 @@ class GameProvider with ChangeNotifier {
   List<int> get guessClueMinorHistory => _guessClueMinorHistory;
   List<int> get guessClueMajorHistory => _guessClueMajorHistory;
   bool get hasWon => _hasWon;
-  int? get secretNumber => _secretNumber;
+  int? get maxNumber => _currentDifficulty.maxNumber;
 }
