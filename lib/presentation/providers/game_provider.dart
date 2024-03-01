@@ -52,8 +52,8 @@ class GameProvider with ChangeNotifier {
 
     _attemptsLeft--;
 
-    if (guess - 1 == _secretNumber) _guessClueMinorHistory.add(guess);
-    if (guess + 1 == _secretNumber) _guessClueMajorHistory.add(guess);
+    if (guess > _secretNumber!) _guessClueMinorHistory.add(guess);
+    if (guess < _secretNumber!) _guessClueMajorHistory.add(guess);
 
     if (guess == _secretNumber) {
       _hasWon = true;

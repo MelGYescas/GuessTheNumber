@@ -43,9 +43,8 @@ class _NumberFieldState extends State<NumberField> {
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
     final outlineInputBorder = OutlineInputBorder(
-      borderSide: BorderSide(color: colorScheme.onPrimary, width: 2.0),
+      borderSide: BorderSide(color: colorScheme.primary, width: 2.0),
     );
-
     return TextField(
       controller: _controller,
       focusNode: _focusNode,
@@ -55,7 +54,7 @@ class _NumberFieldState extends State<NumberField> {
           border: outlineInputBorder,
           enabledBorder: outlineInputBorder,
           focusedBorder: outlineInputBorder),
-      style: TextStyle(color: colorScheme.onSurface),
+      style: Theme.of(context).textTheme.bodyMedium,
       keyboardType: TextInputType.number,
       onSubmitted: _submitValue,
       textInputAction: TextInputAction.done,

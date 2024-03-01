@@ -10,9 +10,24 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
   static final ThemeData theme = ThemeData(
-    primaryColor: Colors.blue,
+    primarySwatch: Colors.blue,
+    colorScheme: ColorScheme.fromSwatch(
+      primarySwatch: Colors.blue,
+      brightness: Brightness.dark,
+    ).copyWith(
+      secondary: Colors.deepPurple,
+    ),
     brightness: Brightness.dark,
+    textTheme: const TextTheme(
+      bodyMedium: TextStyle(
+        fontSize: 18,
+      ),
+      titleMedium: TextStyle(
+        fontSize: 18,
+      ),
+    ),
   );
+
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
