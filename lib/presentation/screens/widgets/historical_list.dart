@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:guess_the_number/domain/models/guess_history_model.dart';
 import 'package:guess_the_number/presentation/providers/game_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -9,8 +10,7 @@ class HistoricalList extends StatelessWidget {
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
     final gameProvider = Provider.of<GameProvider>(context);
-    final List<int> guessHistory = gameProvider.guessHistory;
-    final int? secretNumber = gameProvider.secretNumber;
+    final List<GuessHistoryEntry> guessHistory = gameProvider.guessHistory;
 
     return Container(
       height: 300,
@@ -29,12 +29,12 @@ class HistoricalList extends StatelessWidget {
             child: ListView.builder(
               itemCount: guessHistory.length,
               itemBuilder: (context, index) {
-                bool isGuessCorrect = guessHistory[index] == secretNumber;
+                final entry = guessHistory[index];
                 return Center(
                   child: Text(
-                    guessHistory[index].toString(),
+                    entry.guess.toString(),
                     style: TextStyle(
-                      color: isGuessCorrect ? Colors.green : Colors.red,
+                      color: entry.wasCorrect ? Colors.green : Colors.red,
                       fontSize: 18,
                     ),
                   ),

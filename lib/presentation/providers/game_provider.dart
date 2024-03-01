@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:guess_the_number/domain/models/guess_history_model.dart';
 
 enum DifficultyLevel {
   easy(10, 5),
@@ -18,9 +19,9 @@ class GameProvider with ChangeNotifier {
   DifficultyLevel _currentDifficulty = DifficultyLevel.easy;
   int? _secretNumber;
   int _attemptsLeft;
-  List<int> _guessHistory = [];
-  List<int> _guessClueMinorHistory = [];
-  List<int> _guessClueMajorHistory = [];
+  final List<GuessHistoryEntry> _guessHistory = [];
+  final List<int> _guessClueMinorHistory = [];
+  final List<int> _guessClueMajorHistory = [];
   bool _hasWon = false;
 
   GameProvider() : _attemptsLeft = 0 {
@@ -29,7 +30,6 @@ class GameProvider with ChangeNotifier {
   }
 
   void _generateNewSecretNumber() {
-    print(_currentDifficulty.maxNumber);
     _secretNumber = Random().nextInt(_currentDifficulty.maxNumber) + 1;
     _attemptsLeft = _currentDifficulty.attempts;
     _guessClueMajorHistory.clear();
@@ -51,7 +51,6 @@ class GameProvider with ChangeNotifier {
     if (_secretNumber == null || _attemptsLeft <= 0) return;
 
     _attemptsLeft--;
-    _guessHistory.add(guess);
 
     if (guess - 1 == _secretNumber) _guessClueMinorHistory.add(guess);
     if (guess + 1 == _secretNumber) _guessClueMajorHistory.add(guess);
@@ -59,6 +58,8 @@ class GameProvider with ChangeNotifier {
     if (guess == _secretNumber) {
       _hasWon = true;
     }
+    bool isCorrect = guess == _secretNumber;
+    _guessHistory.add(GuessHistoryEntry(guess, isCorrect));
 
     if (_attemptsLeft <= 0 || _hasWon) {
       _generateNewSecretNumber();
@@ -70,7 +71,7 @@ class GameProvider with ChangeNotifier {
   // Getters
   DifficultyLevel get currentDifficulty => _currentDifficulty;
   int get attemptsLeft => _attemptsLeft;
-  List<int> get guessHistory => _guessHistory;
+  List<GuessHistoryEntry> get guessHistory => _guessHistory;
   List<int> get guessClueMinorHistory => _guessClueMinorHistory;
   List<int> get guessClueMajorHistory => _guessClueMajorHistory;
   bool get hasWon => _hasWon;
