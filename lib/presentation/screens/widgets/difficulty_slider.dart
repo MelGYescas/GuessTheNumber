@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:guess_the_number/presentation/providers/game_provider.dart';
+import 'package:provider/provider.dart';
 
 class DifficultySlider extends StatefulWidget {
   const DifficultySlider({super.key});
@@ -30,6 +32,13 @@ class _DifficultySliderState extends State<DifficultySlider> {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
+    final difficultyLevels = [
+      DifficultyLevel.easy,
+      DifficultyLevel.medium,
+      DifficultyLevel.advanced,
+      DifficultyLevel.extreme,
+    ];
+
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -47,12 +56,14 @@ class _DifficultySliderState extends State<DifficultySlider> {
           child: Slider(
             value: _currentSliderValue,
             min: 0,
-            max: 4,
-            divisions: 4,
+            max: difficultyLevels.length.toDouble() - 1,
+            divisions: difficultyLevels.length - 1,
             onChanged: (double value) {
               setState(() {
                 _currentSliderValue = value;
               });
+              Provider.of<GameProvider>(context, listen: false)
+                  .changeDifficulty(difficultyLevels[value.toInt()]);
             },
           ),
         ),
