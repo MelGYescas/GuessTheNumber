@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:guess_the_number/presentation/providers/guess_provider.dart';
-import 'package:guess_the_number/presentation/providers/historical_number_provider.dart';
+import 'package:guess_the_number/presentation/providers/game_provider.dart';
 import 'package:guess_the_number/presentation/screens/guess_the_number_screen.dart';
 import 'package:provider/provider.dart';
 
@@ -18,10 +17,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
         providers: [
-          ChangeNotifierProvider(
-            create: (_) => GuessProvider(),
-          ),
-          ChangeNotifierProvider(create: (_) => HistoricalNumbersProvider())
+          ChangeNotifierProvider(create: (_) => GameProvider()),
         ],
         child: MaterialApp(
           title: 'Guess The Number',

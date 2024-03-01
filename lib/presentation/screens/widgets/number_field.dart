@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:guess_the_number/presentation/providers/guess_provider.dart';
-import 'package:guess_the_number/presentation/providers/historical_number_provider.dart';
+import 'package:guess_the_number/presentation/providers/game_provider.dart';
 import 'package:provider/provider.dart';
 
 class NumberField extends StatefulWidget {
@@ -25,10 +24,9 @@ class _NumberFieldState extends State<NumberField> {
   void _submitValue(String value) {
     final number = int.tryParse(value);
     if (number != null && number >= 0) {
-      Provider.of<HistoricalNumbersProvider>(context, listen: false)
-          .addNumber(number);
-      Provider.of<GuessProvider>(context, listen: false).increaseAttempts();
+      Provider.of<GameProvider>(context, listen: false).makeGuess(number);
       _controller.clear();
+
       FocusScope.of(context).requestFocus(_focusNode);
 
       setState(() {

@@ -1,19 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:guess_the_number/presentation/providers/historical_number_provider.dart';
-import 'package:provider/provider.dart';
 
 class NumberList extends StatelessWidget {
   final String title;
 
-  const NumberList({super.key, required this.title});
+  final List<int> numbers;
+  const NumberList({super.key, required this.title, required this.numbers});
 
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
-    final numbers = Provider.of<HistoricalNumbersProvider>(context).numbers;
 
     return Container(
-      height: 200,
+      height: 300,
       padding: const EdgeInsets.all(8.0),
       decoration: BoxDecoration(
         border: Border.all(color: colorScheme.onSurface),

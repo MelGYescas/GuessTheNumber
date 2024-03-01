@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:guess_the_number/presentation/providers/guess_provider.dart';
+import 'package:guess_the_number/presentation/providers/game_provider.dart';
 import 'package:provider/provider.dart';
 
 class AttemptsCounter extends StatelessWidget {
@@ -9,17 +9,17 @@ class AttemptsCounter extends StatelessWidget {
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
-    final attempts = Provider.of<GuessProvider>(context).attempts;
+    final int attemptsLeft = Provider.of<GameProvider>(context).attemptsLeft;
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         Text(
-          'Intentos',
+          'Intentos restantes:',
           style: TextStyle(color: colorScheme.onSurface),
         ),
         Text(
-          '$attempts',
+          '$attemptsLeft',
           style: TextStyle(
               color: colorScheme.onSurface,
               fontSize: textTheme.bodyMedium?.fontSize),
