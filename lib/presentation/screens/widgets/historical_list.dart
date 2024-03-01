@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:guess_the_number/presentation/providers/historical_number_provider.dart';
+import 'package:provider/provider.dart';
 
 class HistoricalList extends StatelessWidget {
   const HistoricalList({super.key});
@@ -7,25 +9,7 @@ class HistoricalList extends StatelessWidget {
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
 
-    List<int> numbers = [
-      1,
-      9,
-      17,
-      8,
-      60,
-      5,
-      2,
-      17,
-      23,
-      23,
-      5,
-      5,
-      3,
-      2,
-      12,
-      4,
-      2
-    ];
+    final numbers = Provider.of<HistoricalNumbersProvider>(context).numbers;
 
     return Container(
       height: 200,

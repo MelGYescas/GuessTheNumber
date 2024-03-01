@@ -1,68 +1,52 @@
 import 'package:flutter/material.dart';
+import 'package:guess_the_number/presentation/providers/historical_number_provider.dart';
+import 'package:provider/provider.dart';
 
 class NumberField extends StatefulWidget {
-  const NumberField({Key? key}) : super(key: key);
+  final int guessNumber;
+
+  const NumberField({required this.guessNumber, Key? key}) : super(key: key);
 
   @override
   State<NumberField> createState() => _NumberFieldState();
 }
 
 class _NumberFieldState extends State<NumberField> {
-  int _currentInputValue = 0;
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>(); // Corrected
+  String? _errorMessage;
 
-  void _submitForm() {
-    // Corrected placement and context access
-    if (_formKey.currentState!.validate()) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Processing Data')),
-      );
+  void _submitValue(String value) {
+    final number = int.tryParse(value);
+    if (number != null && number >= 0) {
+      Provider.of<HistoricalNumbersProvider>(context, listen: false)
+          .addNumber(number);
+      setState(() {
+        _errorMessage = null;
+      });
+    } else {
+      setState(() {
+        _errorMessage = 'Solo numeros positivos';
+      });
     }
   }
 
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
+    final outlineInputBorder = OutlineInputBorder(
+      borderSide: BorderSide(color: colorScheme.onPrimary, width: 2.0),
+    );
 
-    return Form(
-      // Added Form widget
-      key: _formKey,
-      child: TextFormField(
-        decoration: InputDecoration(
+    return TextField(
+      decoration: InputDecoration(
           labelText: 'Numbers',
-          border: OutlineInputBorder(
-            borderSide: BorderSide(color: colorScheme.primary),
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: colorScheme.primary, width: 2.0),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: colorScheme.primary, width: 2.0),
-          ),
-        ),
-        style: TextStyle(color: colorScheme.onSurface),
-        keyboardType: TextInputType.number,
-        onChanged: (value) {
-          final number = int.tryParse(value);
-          if (number != null && number >= 0) {
-            setState(() {
-              _currentInputValue = number;
-            });
-          }
-        },
-        validator: (value) {
-          if (value == null || value.isEmpty) {
-            return 'Please enter a number';
-          }
-          final number = int.tryParse(value);
-          if (number == null || number < 0) {
-            return 'Only positive numbers are allowed';
-          }
-          return null;
-        },
-        textInputAction: TextInputAction.done,
-        onFieldSubmitted: (value) => _submitForm(), // Corrected
-      ),
+          errorText: _errorMessage,
+          border: outlineInputBorder,
+          enabledBorder: outlineInputBorder,
+          focusedBorder: outlineInputBorder),
+      style: TextStyle(color: colorScheme.onSurface),
+      keyboardType: TextInputType.number,
+      onSubmitted: _submitValue,
+      textInputAction: TextInputAction.done,
     );
   }
 }
