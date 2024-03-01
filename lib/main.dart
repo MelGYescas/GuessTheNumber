@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
         providers: [
           ChangeNotifierProvider(
-            create: (_) => GuessProvider(guessedNumber: 5),
+            create: (_) => GuessProvider(),
           ),
           ChangeNotifierProvider(create: (_) => HistoricalNumbersProvider())
         ],

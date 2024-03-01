@@ -1,24 +1,36 @@
 import 'package:flutter/material.dart';
+import 'package:guess_the_number/presentation/providers/guess_provider.dart';
 import 'package:guess_the_number/presentation/providers/historical_number_provider.dart';
 import 'package:provider/provider.dart';
 
 class NumberField extends StatefulWidget {
-  final int guessNumber;
-
-  const NumberField({required this.guessNumber, Key? key}) : super(key: key);
+  const NumberField({Key? key}) : super(key: key);
 
   @override
   State<NumberField> createState() => _NumberFieldState();
 }
 
 class _NumberFieldState extends State<NumberField> {
+  final TextEditingController _controller = TextEditingController();
+  final FocusNode _focusNode = FocusNode();
   String? _errorMessage;
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    _focusNode.dispose();
+    super.dispose();
+  }
 
   void _submitValue(String value) {
     final number = int.tryParse(value);
     if (number != null && number >= 0) {
       Provider.of<HistoricalNumbersProvider>(context, listen: false)
           .addNumber(number);
+      Provider.of<GuessProvider>(context, listen: false).increaseAttempts();
+      _controller.clear();
+      FocusScope.of(context).requestFocus(_focusNode);
+
       setState(() {
         _errorMessage = null;
       });
@@ -37,6 +49,8 @@ class _NumberFieldState extends State<NumberField> {
     );
 
     return TextField(
+      controller: _controller,
+      focusNode: _focusNode,
       decoration: InputDecoration(
           labelText: 'Numbers',
           errorText: _errorMessage,

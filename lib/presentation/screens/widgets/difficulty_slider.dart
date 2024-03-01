@@ -10,6 +10,23 @@ class DifficultySlider extends StatefulWidget {
 class _DifficultySliderState extends State<DifficultySlider> {
   double _currentSliderValue = 0;
 
+  String _getDifficultyText(double sliderValue) {
+    switch (sliderValue.toInt()) {
+      case 0:
+        return 'Fácil';
+      case 1:
+        return 'Medio';
+      case 2:
+        return 'Difícil';
+      case 3:
+        return 'Avanzado';
+      case 4:
+        return 'Extremo';
+      default:
+        return 'Desconocido';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
@@ -17,7 +34,7 @@ class _DifficultySliderState extends State<DifficultySlider> {
       mainAxisSize: MainAxisSize.min,
       children: [
         Text(
-          '$_currentSliderValue',
+          _getDifficultyText(_currentSliderValue),
           style: TextStyle(color: colorScheme.onSurface),
         ),
         SliderTheme(
@@ -32,7 +49,6 @@ class _DifficultySliderState extends State<DifficultySlider> {
             min: 0,
             max: 4,
             divisions: 4,
-            label: _currentSliderValue.round().toString(),
             onChanged: (double value) {
               setState(() {
                 _currentSliderValue = value;
